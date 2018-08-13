@@ -7,23 +7,25 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/count_label"
+    <EditText
+        android:id="@+id/count_input"
         android:layout_width="wrap_content"
         android:textSize="@dimen/activity_main_text_size"
-        android:layout_height="wrap_content"
-        android:text="@string/intial_value"/>
+        android:inputType="textNoSuggestions"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/count_button"
+        android:id="@+id/clear_button"
+        android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/inc"/>
+        android:text="@string/clear_string" />
 
-    <Button
-        android:id="@+id/reset_button"
+    <TextView
+        android:id="@+id/count_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reset"/>
+        android:textSize="@dimen/activity_main_text_size"
+        />
 
 </LinearLayout>
