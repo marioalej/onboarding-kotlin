@@ -7,10 +7,17 @@
     android:gravity="center"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/operation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/activity_main_text_operation_label" />
+
     <EditText
         android:id="@+id/count_input"
         android:layout_width="wrap_content"
         android:textSize="@dimen/activity_main_text_size"
+        android:hint="@string/initial_value"
         android:inputType="textNoSuggestions"
         android:layout_height="wrap_content" />
 

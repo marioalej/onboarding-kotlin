@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Onboarding</string>
-    <string name="intial_value">0</string>
+    <string name="initial_value">0</string>
     <string name="clear_string">Clear</string>
-    <string name="incorrect_format">Incorrect number format</string>
 </resources>

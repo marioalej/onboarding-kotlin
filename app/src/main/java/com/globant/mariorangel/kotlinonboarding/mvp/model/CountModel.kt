@@ -1,40 +1,85 @@
 package com.globant.mariorangel.kotlinonboarding.mvp.model
 
-import java.lang.Integer.parseInt
-
 class CountModel {
 
-    private var number: Int? = null
+    private var number: Double? = null
 
     /**
-     * Here, the operation is done. To start, the function is
-     * going to ask if the first number is already setted, if it's not
-     * It will set in the listener 0 <Zero> and save the value for the
-     * first number.
+     * To start, this function will initialize the operation, settings the first
+     * value to the operation, it will be setting the number back inside the listener
      * <p>
-     * if it's, then it will set in the listener the result of the
-     * operation.
+     * If the number cannot be parsed, it will return a null into the listener
      *
-     * @param value value from the EditText
-     * @param listener  listener that will handle the result of the operation
+     * @param value first num to be performed
+     * @param listener  listener that will be notifying action result
      */
-    fun plus(value: String, listener: (Int) -> Unit) {
+    fun addFirstNumber(value: String, listener: (Double?) -> Unit) {
+        try {
+            number = value.toDouble()
+            listener(number)
+        } catch (e: NumberFormatException) {
+            listener(null)
+        }
+    }
+
+    /**
+     * Here, the operation is done.
+     * Following functions will be doing the operations returnig the
+     * result through the listener
+     *
+     * @param value second value from the EditText
+     * @param listener  listener that will notify the result of the operation
+     */
+    fun addition(value: String, listener: (Double?) -> Unit) {
 
         try {
-            val value1 = value.toInt()
+            val value1 = value.toDouble()
 
-            if (number == null) {
-                number = value1
-                listener(0)
-            } else {
-                val result = number!! + value1
-                number = null
-                listener(result)
-            }
+            val result = number!! + value1
+            number = null
+            listener(result)
+
         } catch (e: NumberFormatException) {
-            listener(-1)
+            listener(null)
         }
+    }
 
+    fun subtraction(value: String, listener: (Double?) -> Unit) {
+        try {
+            val value1 = value.toDouble()
 
+            val result = number!! - value1
+            number = null
+            listener(result)
+
+        } catch (e: NumberFormatException) {
+            listener(null)
+        }
+    }
+
+    fun multiplication(value: String, listener: (Double?) -> Unit) {
+        try {
+            val value1 = value.toDouble()
+
+            val result = number!! * value1
+            number = null
+            listener(result)
+
+        } catch (e: NumberFormatException) {
+            listener(null)
+        }
+    }
+
+    fun division(value: String, listener: (Double?) -> Unit) {
+        try {
+            val value1 = value.toDouble()
+
+            val result = number!! / value1
+            number = null
+            listener(result)
+
+        } catch (e: NumberFormatException) {
+            listener(null)
+        }
     }
 }
