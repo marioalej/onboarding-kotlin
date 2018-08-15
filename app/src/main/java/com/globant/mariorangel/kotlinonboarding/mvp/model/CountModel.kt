@@ -2,7 +2,7 @@ package com.globant.mariorangel.kotlinonboarding.mvp.model
 
 class CountModel {
 
-    private var number: Double? = null
+    private var number = 0.0
 
     /**
      * To start, this function will initialize the operation, settings the first
@@ -35,7 +35,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            listener(number!! + value1)
+            listener(number + value1)
         } catch (e: NumberFormatException) {
             listener(null)
         }
@@ -45,7 +45,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            listener(number!! - value1)
+            listener(number - value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
@@ -56,7 +56,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            listener(number!! * value1)
+            listener(number * value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
@@ -67,7 +67,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            listener(number!! / value1)
+            listener(number / value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
