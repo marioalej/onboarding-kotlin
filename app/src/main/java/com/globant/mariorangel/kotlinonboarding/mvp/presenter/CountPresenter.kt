@@ -17,7 +17,6 @@ class CountPresenter(private val model: CountModel,
     fun register() {
 
         val activity = view.activity
-
         if (activity != null) subscribeObservers(activity)
     }
 
@@ -28,17 +27,16 @@ class CountPresenter(private val model: CountModel,
         RxBus.clear(activity)
     }
 
-    // subscribe listeners to the different operations
     private fun subscribeObservers(activity: Activity) {
 
+        // Subscribe listeners for the operators
         RxBus.subscribe(activity, object : OperatorButtonPressedObserver() {
             override fun onEvent(value: OnButtonPressed) {
-                model.addNumber(value.value.toDouble())
-                operation = value.operator
-                view.cleanInput()
+                handleOperatorButtonPressed(value.operator, value.value)
             }
         })
 
+        // Subscribe listener for the equal button
         RxBus.subscribe(activity, object : EqualButtonPressedObserver() {
             override fun onEvent(value: OnEqualButtonPressed) {
                 makeOperation(value.value.toDouble())
@@ -46,6 +44,11 @@ class CountPresenter(private val model: CountModel,
         })
     }
 
+    /**
+     * Here it'll be decided the operation to be performed
+     *
+     * @param value value that comes with the equal button pressed
+     */
     private fun makeOperation(value: Double) {
         when (operation) {
             CountView.PLUS -> model.addition(value) { updateResult(it) }
@@ -54,6 +57,16 @@ class CountPresenter(private val model: CountModel,
             CountView.DIVIDER -> model.division(value) { updateResult(it) }
             CountView.SPACE -> updateResult(value)
         }
+    }
+
+    /**
+     * In order to hold the first number of the operation, this function
+     * is gonna do that and also update the UI
+     */
+    private fun handleOperatorButtonPressed(operator: String, value: String) {
+        operation = operator
+        model.addNumber(value.toDouble())
+        view.cleanInput()
     }
 
     /**
