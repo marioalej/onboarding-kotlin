@@ -35,10 +35,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            val result = number!! + value1
-            number = null
-            listener(result)
-
+            listener(number!! + value1)
         } catch (e: NumberFormatException) {
             listener(null)
         }
@@ -48,9 +45,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            val result = number!! - value1
-            number = null
-            listener(result)
+            listener(number!! - value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
@@ -61,9 +56,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            val result = number!! * value1
-            number = null
-            listener(result)
+            listener(number!! * value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
@@ -74,9 +67,7 @@ class CountModel {
         try {
             val value1 = value.toDouble()
 
-            val result = number!! / value1
-            number = null
-            listener(result)
+            listener(number!! / value1)
 
         } catch (e: NumberFormatException) {
             listener(null)
