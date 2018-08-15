@@ -4,16 +4,14 @@ import android.app.Activity
 import com.globant.mariorangel.kotlinonboarding.mvp.model.CountModel
 import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
 import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
-import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.*
+import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.EqualButtonPressedObserver
+import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.OperatorButtonPressedObserver
 
 class CountPresenter(private val model: CountModel,
                      private val view: CountView) {
 
-    //It will consider if the number is the first number input by the user
-    private var firstNumber = true
-
     //It's whom determine the operation inside the presenter
-    private var operation = CountView.BLANK_SPACE
+    private var operation = CountView.SPACE
 
     //Bind observers to Activity
     fun register() {
@@ -32,43 +30,29 @@ class CountPresenter(private val model: CountModel,
 
     // subscribe listeners to the different operations
     private fun subscribeObservers(activity: Activity) {
-        RxBus.subscribe(activity, object : TextEditObserver() {
-            override fun onEvent(value: OnKeyPressed) {
+
+        RxBus.subscribe(activity, object : OperatorButtonPressedObserver() {
+            override fun onEvent(value: OnButtonPressed) {
+                model.addNumber(value.value.toDouble())
                 operation = value.operator
-                model.addFirstNumber(value.s) { handleFirstNumberCallback(it) }
+                view.cleanInput()
             }
         })
-        RxBus.subscribe(activity, object : EqualPressedObserver() {
-            override fun onEvent(value: OnEqualPressed) {
-                if(!firstNumber)
-                    makeOperation(value.s)
-            }
 
+        RxBus.subscribe(activity, object : EqualButtonPressedObserver() {
+            override fun onEvent(value: OnEqualButtonPressed) {
+                makeOperation(value.value.toDouble())
+            }
         })
     }
 
-    private fun makeOperation(value: String) {
+    private fun makeOperation(value: Double) {
         when (operation) {
-            CountView.PLUS -> {
-                model.addition(value) {
-                    updateResult(it)
-                }
-            }
-            CountView.MINUS -> {
-                model.subtraction(value) {
-                    updateResult(it)
-                }
-            }
-            CountView.MULTIPLIER -> {
-                model.multiplication(value) {
-                    updateResult(it)
-                }
-            }
-            CountView.DIVIDER -> {
-                model.division(value) {
-                    updateResult(it)
-                }
-            }
+            CountView.PLUS -> model.addition(value) { updateResult(it) }
+            CountView.MINUS -> model.subtraction(value) { updateResult(it) }
+            CountView.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
+            CountView.DIVIDER -> model.division(value) { updateResult(it) }
+            CountView.SPACE -> updateResult(value)
         }
     }
 
@@ -78,32 +62,10 @@ class CountPresenter(private val model: CountModel,
      *
      * @param result value from EditText
      */
-    private fun updateResult(result: Double?) {
-        if (result == null) {
-            view.fireShortToast(WRONG_FORMAT)
-        } else {
-            view.setResult(result.toString())
-            view.cleanNumberLabel()
-            view.cleanInput()
-            firstNumber = true
-        }
+    private fun updateResult(result: Double) {
+        view.setResult(result.toString())
+        view.cleanInput()
+        operation = CountView.SPACE
     }
 
-    /**
-     * This function is going to handle first user input
-     *
-     * @param value     value from EditText
-     */
-    private fun handleFirstNumberCallback(value: Double?) {
-        if (value == null) {
-            view.fireShortToast(WRONG_FORMAT)
-        } else {
-            firstNumber = false
-            view.updateLabel(value.toString())
-        }
-    }
-
-    companion object {
-        private const val WRONG_FORMAT = "Incorrect number format"
-    }
 }

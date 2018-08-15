@@ -13,26 +13,86 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/activity_main_text_operation_label" />
 
-    <EditText
-        android:id="@+id/count_input"
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/activity_main_text_size"
-        android:hint="@string/initial_value"
-        android:inputType="textNoSuggestions"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/clear_button"
-        android:enabled="false"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clear_string" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/count_result"
+        <EditText
+            android:id="@+id/count_input"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/activity_main_text_size"
+            android:hint="@string/initial_value"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/count_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/activity_main_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/activity_main_text_size"
-        />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/plus_button"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/plus_btn_text" />
+
+        <Button
+            android:id="@+id/minus_button"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/minus_btn_text" />
+
+        <Button
+            android:id="@+id/multiplier_button"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/multiplier_btn_text" />
+
+        <Button
+            android:id="@+id/divider_button"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/divider_btn_text" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end">
+
+        <Button
+            android:id="@+id/equal_button"
+            android:enabled="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/equal_btn_text" />
+
+        <Button
+            android:id="@+id/clear_button"
+            android:enabled="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/clear_string" />
+    </LinearLayout>
 
 </LinearLayout>
