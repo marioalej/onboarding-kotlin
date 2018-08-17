@@ -10,9 +10,6 @@ import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.OperatorButt
 class CountPresenter(private val model: CountModel,
                      private val view: CountView) {
 
-    //It's whom determine the operation inside the presenter
-    private var operation = CountView.SPACE
-
     //Bind observers to Activity
     fun register() {
 
@@ -49,8 +46,8 @@ class CountPresenter(private val model: CountModel,
      *
      * @param value value that comes with the equal button pressed
      */
-    private fun makeOperation(value: Double) {
-        when (operation) {
+    fun makeOperation(value: Double) {
+        when (model.operation) {
             CountView.PLUS -> model.addition(value) { updateResult(it) }
             CountView.MINUS -> model.subtraction(value) { updateResult(it) }
             CountView.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
@@ -63,8 +60,8 @@ class CountPresenter(private val model: CountModel,
      * In order to hold the first number of the operation, this function
      * is gonna do that and also update the UI
      */
-    private fun handleOperatorButtonPressed(operator: String, value: String) {
-        operation = operator
+    fun handleOperatorButtonPressed(operator: String, value: String) {
+        model.defineOperator(operator)
         model.addNumber(value.toDouble())
         view.cleanInput()
     }
@@ -75,10 +72,10 @@ class CountPresenter(private val model: CountModel,
      *
      * @param result value from EditText
      */
-    private fun updateResult(result: Double) {
+    fun updateResult(result: Double) {
         view.setResult(result.toString())
         view.cleanInput()
-        operation = CountView.SPACE
+        model.defineOperator(CountView.SPACE)
     }
 
 }

@@ -1,11 +1,20 @@
 package com.globant.mariorangel.kotlinonboarding.mvp.model
 
+import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
+
 class CountModel {
 
-    private var number = 0.0
+    var number = 0.0
+        private set
+    lateinit var operation: String
+        private set
 
     fun addNumber(value: Double) {
         number = value
+    }
+
+    fun defineOperator(operator: String) {
+        operation = operator
     }
 
     /**
