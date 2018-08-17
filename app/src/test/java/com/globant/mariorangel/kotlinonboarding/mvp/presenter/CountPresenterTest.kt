@@ -7,12 +7,14 @@ import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
+
 class CountPresenterTest {
 
-    private lateinit var presenter : CountPresenter
+    lateinit var presenter : CountPresenter
 
     private val model = Mockito.mock(CountModel::class.java)!!
     private val view = Mockito.mock(CountView::class.java)!!
+
 
     @Before
     fun setup() {
@@ -21,9 +23,22 @@ class CountPresenterTest {
     }
 
     @Test
-    fun shouldPlusFirstAndSecondNumber() {
-        //Mockito.`when`(model.addition("10", ))
+    fun shouldMakeAnAddition() {
+
+        Mockito.`when`(model.number).thenReturn(ANY_DOUBLE)
+        Mockito.`when`(model.operation).thenReturn(PLUS)
+
+        presenter.makeOperation(ANY_DOUBLE)
+
+        presenter.updateResult(Mockito.anyDouble())
+
+        Mockito.verify(view).setResult(Mockito.anyString())
+        Mockito.verify(view).cleanInput()
+        Mockito.verifyNoMoreInteractions(view)
     }
 
-
+    companion object {
+        private const val ANY_DOUBLE = 0.0
+        private const val PLUS = "+"
+    }
 }
