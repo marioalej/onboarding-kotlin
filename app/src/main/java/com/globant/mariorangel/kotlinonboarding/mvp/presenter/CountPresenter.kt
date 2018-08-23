@@ -6,6 +6,7 @@ import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
 import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
 import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.EqualButtonPressedObserver
 import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.OperatorButtonPressedObserver
+import kotlinx.android.synthetic.main.activity_main.*
 
 class CountPresenter(private val model: CountModel,
                      private val view: CountView) {
@@ -29,16 +30,22 @@ class CountPresenter(private val model: CountModel,
         // Subscribe listeners for the operators
         RxBus.subscribe(activity, object : OperatorButtonPressedObserver() {
             override fun onEvent(value: OnButtonPressed) {
-                handleOperatorButtonPressed(value.operator, value.value)
+                if (!activity.count_input.text.isEmpty())
+                    handleOperatorButtonPressed(value.operator, value.value)
             }
         })
 
         // Subscribe listener for the equal button
         RxBus.subscribe(activity, object : EqualButtonPressedObserver() {
             override fun onEvent(value: OnEqualButtonPressed) {
-                makeOperation(value.value.toDouble())
+                if (!activity.count_input.text.isEmpty())
+                    makeOperation(value.value.toDouble())
             }
         })
+    }
+
+    fun checkEmptyText() {
+
     }
 
     /**
@@ -48,11 +55,11 @@ class CountPresenter(private val model: CountModel,
      */
     fun makeOperation(value: Double) {
         when (model.operation) {
-            CountView.PLUS -> model.addition(value) { updateResult(it) }
-            CountView.MINUS -> model.subtraction(value) { updateResult(it) }
-            CountView.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
-            CountView.DIVIDER -> model.division(value) { updateResult(it) }
-            CountView.SPACE -> updateResult(value)
+            CountModel.PLUS -> model.addition(value) { updateResult(it) }
+            CountModel.MINUS -> model.subtraction(value) { updateResult(it) }
+            CountModel.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
+            CountModel.DIVIDER -> model.division(value) { updateResult(it) }
+            CountModel.SPACE -> updateResult(value)
         }
     }
 
@@ -75,7 +82,7 @@ class CountPresenter(private val model: CountModel,
     fun updateResult(result: Double) {
         view.setResult(result.toString())
         view.cleanInput()
-        model.defineOperator(CountView.SPACE)
+        model.defineOperator(CountModel.SPACE)
     }
 
 }

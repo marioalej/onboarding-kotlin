@@ -1,7 +1,5 @@
 package com.globant.mariorangel.kotlinonboarding.mvp.model
 
-import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
-
 class CountModel {
 
     var number = 0.0
@@ -39,5 +37,13 @@ class CountModel {
 
     fun division(value: Double, listener: (Double) -> Unit) {
         listener(number / value)
+    }
+
+    companion object {
+        const val SPACE = ""
+        const val PLUS = "+"
+        const val MINUS = "-"
+        const val MULTIPLIER =  "*"
+        const val DIVIDER = "/"
     }
 }
