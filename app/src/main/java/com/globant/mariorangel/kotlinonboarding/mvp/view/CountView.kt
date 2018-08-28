@@ -62,7 +62,4 @@ class CountView(activity: Activity) : ActivityView(activity) {
         activity!!.clear_button.isEnabled = true
     }
 
-    companion object {
-
-    }
 }
