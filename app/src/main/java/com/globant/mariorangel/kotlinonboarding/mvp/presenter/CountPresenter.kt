@@ -3,6 +3,7 @@ package com.globant.mariorangel.kotlinonboarding.mvp.presenter
 import android.app.Activity
 import com.globant.mariorangel.kotlinonboarding.mvp.model.CountModel
 import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
+import com.globant.mariorangel.kotlinonboarding.util.bus.Constants
 import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
 import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.EqualButtonPressedObserver
 import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.OperatorButtonPressedObserver
@@ -44,10 +45,6 @@ class CountPresenter(private val model: CountModel,
         })
     }
 
-    fun checkEmptyText() {
-
-    }
-
     /**
      * Here it'll be decided the operation to be performed
      *
@@ -55,11 +52,11 @@ class CountPresenter(private val model: CountModel,
      */
     fun makeOperation(value: Double) {
         when (model.operation) {
-            CountModel.PLUS -> model.addition(value) { updateResult(it) }
-            CountModel.MINUS -> model.subtraction(value) { updateResult(it) }
-            CountModel.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
-            CountModel.DIVIDER -> model.division(value) { updateResult(it) }
-            CountModel.SPACE -> updateResult(value)
+            Constants.PLUS -> model.addition(value) { updateResult(it) }
+            Constants.MINUS -> model.subtraction(value) { updateResult(it) }
+            Constants.MULTIPLIER -> model.multiplication(value) { updateResult(it) }
+            Constants.DIVIDER -> model.division(value) { updateResult(it) }
+            Constants.SPACE -> updateResult(value)
         }
     }
 
@@ -82,7 +79,7 @@ class CountPresenter(private val model: CountModel,
     fun updateResult(result: Double) {
         view.setResult(result.toString())
         view.cleanInput()
-        model.defineOperator(CountModel.SPACE)
+        model.defineOperator(Constants.SPACE)
     }
 
 }

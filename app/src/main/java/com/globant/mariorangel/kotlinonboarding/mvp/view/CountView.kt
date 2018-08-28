@@ -1,7 +1,7 @@
 package com.globant.mariorangel.kotlinonboarding.mvp.view
 
 import android.app.Activity
-import com.globant.mariorangel.kotlinonboarding.mvp.model.CountModel
+import com.globant.mariorangel.kotlinonboarding.util.bus.Constants
 import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
 import com.globant.mariorangel.kotlinonboarding.util.bus.calculator.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,28 +13,28 @@ class CountView(activity: Activity) : ActivityView(activity) {
         activity.plus_button.setOnClickListener {
             RxBus.post(OperatorButtonPressedObserver.OnButtonPressed(
                     activity.count_input.text.toString(),
-                    CountModel.PLUS
+                    Constants.PLUS
             ))
         }
 
         activity.minus_button.setOnClickListener {
             RxBus.post(OperatorButtonPressedObserver.OnButtonPressed(
                     activity.count_input.text.toString(),
-                    CountModel.MINUS
+                    Constants.MINUS
             ))
         }
 
         activity.multiplier_button.setOnClickListener {
             RxBus.post(OperatorButtonPressedObserver.OnButtonPressed(
                     activity.count_input.text.toString(),
-                    CountModel.MULTIPLIER
+                    Constants.MULTIPLIER
             ))
         }
 
         activity.divider_button.setOnClickListener {
             RxBus.post(OperatorButtonPressedObserver.OnButtonPressed(
                     activity.count_input.text.toString(),
-                    CountModel.DIVIDER
+                    Constants.DIVIDER
             ))
         }
 
@@ -45,13 +45,13 @@ class CountView(activity: Activity) : ActivityView(activity) {
         }
 
         activity.clear_button.setOnClickListener {
-            activity.count_result.text = CountModel.SPACE
+            activity.count_result.text = Constants.SPACE
             it.isEnabled = false
         }
     }
 
     fun cleanInput() {
-        activity!!.count_input.setText(CountModel.SPACE)
+        activity!!.count_input.setText(Constants.SPACE)
     }
 
     /**
@@ -62,4 +62,7 @@ class CountView(activity: Activity) : ActivityView(activity) {
         activity!!.clear_button.isEnabled = true
     }
 
+    companion object {
+
+    }
 }
