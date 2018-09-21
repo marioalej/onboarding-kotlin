@@ -1,62 +1,44 @@
 package com.globant.mariorangel.kotlinonboarding.mvp.presenter
 
-import com.globant.mariorangel.kotlinonboarding.MainActivity
 import com.globant.mariorangel.kotlinonboarding.mvp.model.CountModel
 import com.globant.mariorangel.kotlinonboarding.mvp.view.CountView
-import com.globant.mariorangel.kotlinonboarding.util.bus.OnCountButtonPressedBusObserver
-import com.globant.mariorangel.kotlinonboarding.util.bus.OnResetButtonPressedBusObserver
-import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
+
 class CountPresenterTest {
-    private var presenter: CountPresenter? = null
-    private var model: CountModel? = null
-    @Mock
-    lateinit var view: CountView
-    @Mock
-    lateinit var activity: MainActivity
+
+    lateinit var presenter : CountPresenter
+
+    private val model = Mockito.mock(CountModel::class.java)!!
+    private val view = Mockito.mock(CountView::class.java)!!
+
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        model = CountModel()
-        // When
-        Mockito.`when`(view.activity).thenReturn(activity)
-
-        presenter = CountPresenter(model!!, view)
+        presenter = CountPresenter(model, view)
     }
 
     @Test
-    fun isShouldIncCountByOne() {
-        model!!.reset()
-        RxBus.post(OnCountButtonPressedBusObserver.OnCountButtonPressed())
+    fun shouldMakeAnAddition() {
 
-        val count = "1"
-        assertEquals(model!!.count, 1)
-        verify(view).setCount(count)
+        Mockito.`when`(model.number).thenReturn(ANY_DOUBLE)
+        Mockito.`when`(model.operation).thenReturn(PLUS)
+
+        presenter.makeOperation(ANY_DOUBLE)
+
+        presenter.updateResult(Mockito.anyDouble())
+
+        Mockito.verify(view).setResult(Mockito.anyString())
+        Mockito.verify(view).cleanInput()
+        Mockito.verifyNoMoreInteractions(view)
     }
 
-    @Test
-    fun isShouldResetCount() {
-        RxBus.post(OnCountButtonPressedBusObserver.OnCountButtonPressed())
-        RxBus.post(OnCountButtonPressedBusObserver.OnCountButtonPressed())
-        RxBus.post(OnCountButtonPressedBusObserver.OnCountButtonPressed())
-        var count = 3
-        assertEquals(model!!.count, count)
-
-        RxBus.post(OnResetButtonPressedBusObserver.OnResetButtonPressed())
-        count = 0
-        assertEquals(model!!.count, count)
-        val invocations = 4
-        verify(view, times(invocations)).setCount(anyString())
+    companion object {
+        private const val ANY_DOUBLE = 0.0
+        private const val PLUS = "+"
     }
 }

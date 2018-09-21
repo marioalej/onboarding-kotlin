@@ -9,7 +9,7 @@ import com.globant.mariorangel.kotlinonboarding.util.bus.RxBus
 
 class MainActivity : AppCompatActivity() {
 
-    private var presenter: CountPresenter? = null
+    private lateinit var presenter: CountPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +17,14 @@ class MainActivity : AppCompatActivity() {
         presenter = CountPresenter(CountModel(), CountView(this))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        RxBus.clear(this)
+    override fun onResume() {
+        super.onResume()
+        presenter.register()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.unRegister()
     }
 
 }
